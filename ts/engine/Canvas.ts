@@ -1,3 +1,5 @@
+import IPoint from "../geometry/IPoint";
+
 export default class Canvas{
     
     private canvas: HTMLCanvasElement;
@@ -13,5 +15,14 @@ export default class Canvas{
     }
 
 
+    drawPoint(point: IPoint) {
+
+        this.ctx.beginPath();
+        this.ctx.arc(point.getX(), point.getY(), point.getRadius(), 0, 2 * Math.PI);
+        this.ctx.fillStyle = point.getColor();
+        this.ctx.fill();
+        this.ctx.strokeStyle = point.getColor();
+        this.ctx.stroke();
+    }
     
 }

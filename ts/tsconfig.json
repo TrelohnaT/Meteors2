@@ -102,6 +102,11 @@
   "files": [
     "startPoint.ts",
     "engine/Engine.ts",
-    "engine/Canvas.ts"
+    "engine/Canvas.ts",
+    // entity
+    "entity/IEntity.ts",
+    // geometry
+    "geometry/IPoint.ts",
+    "geometry/BasicPoint.ts"
   ]
 }
