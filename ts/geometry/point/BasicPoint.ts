@@ -9,7 +9,7 @@ export default class BasicPoint implements IPoint {
     private y: number;
     private nextX: number = 0;
     private nextY: number = 0;
-    private radius: number = 10;
+    private radius: number = 5;
     private color: string;
 
     private vectorX: number = 0;
@@ -21,7 +21,7 @@ export default class BasicPoint implements IPoint {
         id: string,
         x: number,
         y: number,
-        color: string
+        color: string = "#ff0000"
     ) {
         this.id = id;
         this.x = x;

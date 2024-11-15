@@ -1,6 +1,8 @@
 
 import Canvas from "./engine/Canvas.js";
-import BasicPoint from "./geometry/BasicPoint.js";
+import Meteor from "./entity/meteor/Meteor.js";
+import MeteorBuilder from "./entity/meteor/MeteorBuilder.js";
+import BasicPoint from "./geometry/point/BasicPoint.js";
 
 
 let stillRun: boolean = true;
@@ -9,7 +11,16 @@ function starter():void {
     console.log("start");
     const canvas: Canvas = new Canvas();
 
-    let a = new BasicPoint("test", 20, 200, "#ff0000");
+    let a = new BasicPoint("test", 20, 200);
+
+    let m:Meteor = new MeteorBuilder("test", new BasicPoint("center", 100, 100))
+    
+    .build();
+
+    m.setUp();
+
+    canvas.drawEntity(m);
+
 
     canvas.drawPoint(a);
 

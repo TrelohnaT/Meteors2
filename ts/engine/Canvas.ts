@@ -1,4 +1,5 @@
-import IPoint from "../geometry/IPoint";
+import IEntity from "../entity/IEntity.js";
+import IPoint from "../geometry/point/IPoint.js";
 
 export default class Canvas{
     
@@ -14,6 +15,13 @@ export default class Canvas{
 
     }
 
+    drawEntity(entity: IEntity) {
+        for(const [key, value] of entity.getPointMap()) {
+            console.log("drawing pont: " + key);
+            this.drawPoint(value);
+        }
+
+    }
 
     drawPoint(point: IPoint) {
 

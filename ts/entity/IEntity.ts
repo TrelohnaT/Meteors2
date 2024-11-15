@@ -1,9 +1,14 @@
 
 
+import IPoint from '../geometry/point/IPoint.js';
 
 export default interface IEntity{
-    id: string;
-    pointList: string[];
+    getId(): string;
+    getPointMap(): Map<string, IPoint>;
+
+    setUp():void;
+    update():void;
+
     
 
 

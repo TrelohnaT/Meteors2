@@ -1,8 +1,8 @@
 export default class BasicPoint {
-    constructor(id, x, y, color) {
+    constructor(id, x, y, color = "#ff0000") {
         this.nextX = 0;
         this.nextY = 0;
-        this.radius = 10;
+        this.radius = 5;
         this.vectorX = 0;
         this.vectorY = 0;
         this.hitBorder = false;
