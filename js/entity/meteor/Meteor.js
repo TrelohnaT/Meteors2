@@ -13,8 +13,9 @@ export default class Meteor {
         this.rotationDirection = rotationDirection;
         this.baseRotation = baseRotation;
         this.isSymetric = isSymetric;
-        this.moveMe = moveMe;
+        this.shouldMove = moveMe;
         this.moveSpeed = moveSpeed;
+        this.setUp();
     }
     setUp() {
         console.log("setUp");
@@ -60,6 +61,14 @@ export default class Meteor {
         }
     }
     update() {
+    }
+    moveMe() {
+        this.centerPoint.moveMeX();
+        this.centerPoint.moveMeY();
+        for (let [id, point] of this.pointMap) {
+            point.moveMeX();
+            point.moveMeY();
+        }
     }
     getId() {
         return this.id;

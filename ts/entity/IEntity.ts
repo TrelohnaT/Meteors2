@@ -8,6 +8,7 @@ export default interface IEntity{
 
     setUp():void;
     update():void;
+    moveMe():void;
 
     
 

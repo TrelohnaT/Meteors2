@@ -1,28 +1,20 @@
-
-import Canvas from "./engine/Canvas.js";
-import Meteor from "./entity/meteor/Meteor.js";
-import MeteorBuilder from "./entity/meteor/MeteorBuilder.js";
-import BasicPoint from "./geometry/point/BasicPoint.js";
+import { Engine } from "./engine/Engine.js";
+import MouseHandler from "./engine/MouseHandler.js";
 
 
 let stillRun: boolean = true;
 let frames: number = 0;
-function starter():void {
+
+let engine: Engine = new Engine();
+
+let mouseHandler: MouseHandler = new MouseHandler("mouseHandler");
+let canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+
+function starter(): void {
     console.log("start");
-    const canvas: Canvas = new Canvas();
 
-    let a = new BasicPoint("test", 20, 200);
+    engine.setUp();
 
-    let m:Meteor = new MeteorBuilder("test", new BasicPoint("center", 100, 100))
-    
-    .build();
-
-    m.setUp();
-
-    canvas.drawEntity(m);
-
-
-    canvas.drawPoint(a);
 
     mainLoop();
 
@@ -33,26 +25,44 @@ window.onload = (e: Event) => {
     starter();
 };
 
-
-function mainLoop():void {
+function mainLoop(): void {
 
     //stillRun = engine.update(ctx, canvas.width, canvas.height, mousePoint, events);
 
     //events = getEmptyEvents();
 
+    engine.update();
+
     if (stillRun) {
         requestAnimationFrame(mainLoop);
         frames++;
     } else {
-    //    document.getElementById("playAgainBtn").style.display = "inline";
+        //    document.getElementById("playAgainBtn").style.display = "inline";
         return;
     }
 }
 
+
+canvas.onmousemove = function (evt:MouseEvent) {
+    let rect = canvas.getBoundingClientRect();
+    let scaleX = canvas.width / rect.width;
+    let scaleY = canvas.height / rect.height;
+    mouseHandler.setX((evt.clientX - rect.left) * scaleX);
+    mouseHandler.setY((evt.clientY - rect.top) * scaleY);
+    
+}
+
+canvas.onmousedown = function (evt:MouseEvent) {
+    console.log("clcik doune");
+    mouseHandler.handleEvent(evt.button, "onmousedown");
+}
+
+
+
 // we want to see FPS
 setInterval(() => {
     let fpsCounter = document.getElementById("fps_counter");//.innerHTML = frames + " FPS";
-    if(fpsCounter !== null) {
+    if (fpsCounter !== null) {
         fpsCounter.innerHTML = frames + " FPS";
     }
     frames = 0;

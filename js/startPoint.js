@@ -1,17 +1,13 @@
-import Canvas from "./engine/Canvas.js";
-import MeteorBuilder from "./entity/meteor/MeteorBuilder.js";
-import BasicPoint from "./geometry/point/BasicPoint.js";
+import { Engine } from "./engine/Engine.js";
+import MouseHandler from "./engine/MouseHandler.js";
 let stillRun = true;
 let frames = 0;
+let engine = new Engine();
+let mouseHandler = new MouseHandler("mouseHandler");
+let canvas = document.getElementById("myCanvas");
 function starter() {
     console.log("start");
-    const canvas = new Canvas();
-    let a = new BasicPoint("test", 20, 200);
-    let m = new MeteorBuilder("test", new BasicPoint("center", 100, 100))
-        .build();
-    m.setUp();
-    canvas.drawEntity(m);
-    canvas.drawPoint(a);
+    engine.setUp();
     mainLoop();
 }
 window.onload = (e) => {
@@ -20,6 +16,7 @@ window.onload = (e) => {
 function mainLoop() {
     //stillRun = engine.update(ctx, canvas.width, canvas.height, mousePoint, events);
     //events = getEmptyEvents();
+    engine.update();
     if (stillRun) {
         requestAnimationFrame(mainLoop);
         frames++;
@@ -29,6 +26,17 @@ function mainLoop() {
         return;
     }
 }
+canvas.onmousemove = function (evt) {
+    let rect = canvas.getBoundingClientRect();
+    let scaleX = canvas.width / rect.width;
+    let scaleY = canvas.height / rect.height;
+    mouseHandler.setX((evt.clientX - rect.left) * scaleX);
+    mouseHandler.setY((evt.clientY - rect.top) * scaleY);
+};
+canvas.onmousedown = function (evt) {
+    console.log("clcik doune");
+    mouseHandler.handleEvent(evt.button, "onmousedown");
+};
 // we want to see FPS
 setInterval(() => {
     let fpsCounter = document.getElementById("fps_counter"); //.innerHTML = frames + " FPS";

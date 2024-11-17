@@ -5,10 +5,12 @@ export default class Canvas {
         this.canvas.width = window.innerWidth - 50;
         this.canvas.height = window.innerHeight - 20;
     }
+    clear() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
     drawEntity(entity) {
-        for (const [key, value] of entity.getPointMap()) {
-            console.log("drawing pont: " + key);
-            this.drawPoint(value);
+        for (const [id, point] of entity.getPointMap()) {
+            this.drawPoint(point);
         }
     }
     drawPoint(point) {

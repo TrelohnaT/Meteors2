@@ -7,14 +7,14 @@ export default class BasicPoint implements IPoint {
     private id: string;
     private x: number;
     private y: number;
-    private nextX: number = 0;
-    private nextY: number = 0;
+    private futureX: number = 0;
+    private futureY: number = 0;
     private radius: number = 5;
     private color: string;
 
     private vectorX: number = 0;
     private vectorY: number = 0;
-    
+
     private hitBorder: boolean = false;
 
     constructor(
@@ -30,31 +30,50 @@ export default class BasicPoint implements IPoint {
 
     }
 
-    moveMe(maxX: number, maxY: number):void {
-
-        if (this.x <= 0 || maxX <= this.x) {
-            this.vectorX = this.vectorX * -1;
-            this.hitBorder = true;
-        } else
-
-        if (this.y <= 0 || maxY <= this.y) {
-            this.vectorY = this.vectorY * -1;
-            this.hitBorder = true;
-        } else {
-            this.hitBorder = false;
+    setFutureX(): void {
+        if (this.vectorX != 0) {
+            this.futureX = this.x - this.vectorX;
         }
-        this.x = this.x + this.vectorX;
-        this.y = this.y + this.vectorY;
+    }
+    setFutureY(): void {
+        if (this.vectorY != 0) {
+            this.futureY = this.y - this.vectorY;
+        }
     }
 
-    set_vector_x_and_y(vectorX: number, vectorY: number) {
+    moveMeX(): void {
+        if (this.futureX != 0) {
+            this.x = this.futureX;
+        }
+    }
+    moveMeY(): void {
+        if (this.futureY != 0) {
+            this.y = this.futureY;
+        }
+    }
+
+
+    setVector(vectorX: number, vectorY: number): void {
         this.vectorX = vectorX;
         this.vectorY = vectorY;
     }
 
-    set_x_and_y(x:number, y:number) {
+    set_x_and_y(x: number, y: number) {
         this.x = x;
         this.y = y;
+    }
+
+    handleOutOfBorder(maxX: number, maxY: number): void {
+        if (this.x < 0) {
+            this.futureX = maxX;
+        } else if (maxX < this.x) {
+            this.futureX = 0;
+        }
+        if (this.y < 0) {
+            this.futureY = maxY;
+        } else if (maxY < this.y) {
+            this.futureY = 0;
+        }
     }
 
 

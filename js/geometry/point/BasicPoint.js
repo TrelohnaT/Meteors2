@@ -1,7 +1,7 @@
 export default class BasicPoint {
     constructor(id, x, y, color = "#ff0000") {
-        this.nextX = 0;
-        this.nextY = 0;
+        this.futureX = 0;
+        this.futureY = 0;
         this.radius = 5;
         this.vectorX = 0;
         this.vectorY = 0;
@@ -11,28 +11,47 @@ export default class BasicPoint {
         this.y = y;
         this.color = color;
     }
-    moveMe(maxX, maxY) {
-        if (this.x <= 0 || maxX <= this.x) {
-            this.vectorX = this.vectorX * -1;
-            this.hitBorder = true;
+    setFutureX() {
+        if (this.vectorX != 0) {
+            this.futureX = this.x - this.vectorX;
         }
-        else if (this.y <= 0 || maxY <= this.y) {
-            this.vectorY = this.vectorY * -1;
-            this.hitBorder = true;
-        }
-        else {
-            this.hitBorder = false;
-        }
-        this.x = this.x + this.vectorX;
-        this.y = this.y + this.vectorY;
     }
-    set_vector_x_and_y(vectorX, vectorY) {
+    setFutureY() {
+        if (this.vectorY != 0) {
+            this.futureY = this.y - this.vectorY;
+        }
+    }
+    moveMeX() {
+        if (this.futureX != 0) {
+            this.x = this.futureX;
+        }
+    }
+    moveMeY() {
+        if (this.futureY != 0) {
+            this.y = this.futureY;
+        }
+    }
+    setVector(vectorX, vectorY) {
         this.vectorX = vectorX;
         this.vectorY = vectorY;
     }
     set_x_and_y(x, y) {
         this.x = x;
         this.y = y;
+    }
+    handleOutOfBorder(maxX, maxY) {
+        if (this.x < 0) {
+            this.futureX = maxX;
+        }
+        else if (maxX < this.x) {
+            this.futureX = 0;
+        }
+        if (this.y < 0) {
+            this.futureY = maxY;
+        }
+        else if (maxY < this.y) {
+            this.futureY = 0;
+        }
     }
     getId() {
         return this.id;

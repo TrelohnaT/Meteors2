@@ -17,7 +17,7 @@ export default class Meteor implements IEntity {
     private baseRotation: number;
     private isSymetric: boolean;
 
-    private moveMe: boolean;
+    private shouldMove: boolean;
     private moveSpeed: number;
 
     private pointsToCenterDistance: number[] = new Array();
@@ -50,8 +50,10 @@ export default class Meteor implements IEntity {
         this.baseRotation = baseRotation;
         this.isSymetric = isSymetric;
 
-        this.moveMe = moveMe;
+        this.shouldMove = moveMe;
         this.moveSpeed = moveSpeed;
+
+        this.setUp();
     }
 
     setUp(): void {
@@ -115,6 +117,16 @@ export default class Meteor implements IEntity {
 
     update(): void {
 
+    }
+
+
+    moveMe(): void {
+        this.centerPoint.moveMeX();
+        this.centerPoint.moveMeY();
+        for(let [id, point] of this.pointMap) {
+            point.moveMeX();
+            point.moveMeY();
+        }
     }
 
     getId(): string {
