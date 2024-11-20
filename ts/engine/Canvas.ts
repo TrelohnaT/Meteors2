@@ -20,6 +20,9 @@ export default class Canvas{
     }
 
     drawEntity(entity: IEntity) {
+
+        this.drawPoint(entity.getCenterPoint());
+
         for(const [id, point] of entity.getPointMap()) {
             this.drawPoint(point);
         }

@@ -1,6 +1,6 @@
 import Canvas from "../engine/Canvas.js";
-import MeteorBuilder from "../entity/meteor/MeteorBuilder.js";
-import ProjectileBuilder from "../entity/projectile/ProjectileBuilder.js";
+import EntityBuilder from "../entity/EntityBuilder.js";
+import Projectile from "../entity/projectile/Projectile.js";
 import BasicPoint from "../geometry/point/BasicPoint.js";
 export class Engine {
     constructor() {
@@ -9,12 +9,26 @@ export class Engine {
     }
     setUp() {
         let canvas = document.getElementById("canvas");
-        this.entityMap.set("test", new MeteorBuilder("test", new BasicPoint("center", 100, 100)).build());
-        this.entityMap.set("testProjectile", new ProjectileBuilder("testProjectile", new BasicPoint("projectileCenter", 10, 200))
-            .Angle(45)
-            //.VectorX(-1)
-            //.VectorY(-1)
-            .build());
+        // this.entityMap.set(
+        //     "test",
+        //     new Meteor(new EntityBuilder("test", new BasicPoint("center", 100, 100)).build())
+        // );
+        this.entityMap.set("projectileTest", new Projectile(new EntityBuilder("testProjectile", new BasicPoint("projectileCenter", 10, 200))
+            .OffsetAngle(45)
+            .ChunkAngle(180)
+            .VectorX(1)
+            .VectorY(1)
+            .build()));
+        /*
+        this.entityMap.set(
+            "testProjectile",
+            new ProjectileBuilder("testProjectile", new BasicPoint("projectileCenter", 10, 200))
+                .Angle(45)
+                //.VectorX(-1)
+                //.VectorY(-1)
+                .build()
+        );
+        */
     }
     update() {
         this.canvas.clear();

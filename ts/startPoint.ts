@@ -34,7 +34,9 @@ function mainLoop(): void {
     engine.update();
 
     if (stillRun) {
-        requestAnimationFrame(mainLoop);
+        if (frames % 1 == 0) {
+            requestAnimationFrame(mainLoop);
+        }
         frames++;
     } else {
         //    document.getElementById("playAgainBtn").style.display = "inline";
@@ -43,16 +45,16 @@ function mainLoop(): void {
 }
 
 
-canvas.onmousemove = function (evt:MouseEvent) {
+canvas.onmousemove = function (evt: MouseEvent) {
     let rect = canvas.getBoundingClientRect();
     let scaleX = canvas.width / rect.width;
     let scaleY = canvas.height / rect.height;
     mouseHandler.setX((evt.clientX - rect.left) * scaleX);
     mouseHandler.setY((evt.clientY - rect.top) * scaleY);
-    
+
 }
 
-canvas.onmousedown = function (evt:MouseEvent) {
+canvas.onmousedown = function (evt: MouseEvent) {
     console.log("clcik doune");
     mouseHandler.handleEvent(evt.button, "onmousedown");
 }

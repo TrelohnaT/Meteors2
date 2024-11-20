@@ -9,6 +9,7 @@ export default class Canvas {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
     drawEntity(entity) {
+        this.drawPoint(entity.getCenterPoint());
         for (const [id, point] of entity.getPointMap()) {
             this.drawPoint(point);
         }

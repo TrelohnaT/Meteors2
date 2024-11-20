@@ -37,7 +37,7 @@ export default class ProjectileBuilder {
         this.vectorY = value;
         return this;
     }
-
+    /*
     build(): Projectile {
         return new Projectile(
             this.id,
@@ -48,6 +48,7 @@ export default class ProjectileBuilder {
             this.vectorY
         );
     }
+    */
 
 }
 

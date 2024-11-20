@@ -1,18 +1,18 @@
-export default class MeteorBuilder {
+import Player from "./Player";
+export default class PlayerBuilder {
     constructor(id, centerPoint) {
-        this.id = id;
-        this.centerPoint = centerPoint;
         this.size = 10;
         this.offsetAngle = 0;
         this.maxAngle = 360;
-        this.chunkAngle = 90;
-        this.rotationDirection = 1;
-        this.baseRotation = 0;
-        this.isSymetric = true;
+        this.chunkAngle = 72;
         this.pointMap = new Map();
-        //this.vector = new Vector("default", this.centerPoint, this.centerPoint);
+        this.rotationDirection = 1;
+        this.baseRotation = 180;
         this.moveMe = false;
+        this.isSymetric = true;
         this.moveSpeed = 1;
+        this.id = id;
+        this.centerPoint = centerPoint;
     }
     Size(value) {
         this.size = value;
@@ -53,5 +53,8 @@ export default class MeteorBuilder {
     MoveSpeed(value) {
         this.moveSpeed = value;
         return this;
+    }
+    build() {
+        return new Player(this.id, this.centerPoint, this.size, this.offsetAngle, this.maxAngle, this.chunkAngle, this.pointMap, this.rotationDirection, this.baseRotation, this.isSymetric, this.moveMe, this.moveSpeed);
     }
 }

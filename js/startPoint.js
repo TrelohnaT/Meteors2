@@ -18,7 +18,9 @@ function mainLoop() {
     //events = getEmptyEvents();
     engine.update();
     if (stillRun) {
-        requestAnimationFrame(mainLoop);
+        if (frames % 1 == 0) {
+            requestAnimationFrame(mainLoop);
+        }
         frames++;
     }
     else {

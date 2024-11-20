@@ -7,7 +7,6 @@ export default class MeteorBuilder {
 
     private id: string;
     private centerPoint: IPoint;
-    private kind: string;
     private size: number;
     private offsetAngle: number;
     private maxAngle: number;
@@ -23,7 +22,6 @@ export default class MeteorBuilder {
     constructor(id: string, centerPoint: IPoint) {
         this.id = id;
         this.centerPoint = centerPoint;
-        this.kind = "";
         this.size = 10;
         this.offsetAngle = 0;
         this.maxAngle = 360;
@@ -38,11 +36,6 @@ export default class MeteorBuilder {
         this.moveSpeed = 1;
     }
 
-
-    Kind(value: string): MeteorBuilder {
-        this.kind = value;
-        return this;
-    }
 
     Size(value: number): MeteorBuilder {
         this.size = value;
@@ -93,12 +86,12 @@ export default class MeteorBuilder {
         this.moveSpeed = value;
         return this;
     }
-
+    
+/*
     build(): Meteor {
         return new Meteor(
             this.id,
             this.centerPoint,
-            this.kind,
             this.size,
             this.offsetAngle,
             this.maxAngle,
@@ -111,7 +104,7 @@ export default class MeteorBuilder {
             this.moveSpeed
         );
     }
-
+*/
 }
 
 

@@ -1,4 +1,3 @@
-import Projectile from "./Projectile.js";
 export default class ProjectileBuilder {
     constructor(id, centerPoint) {
         this.angle = 0;
@@ -23,8 +22,5 @@ export default class ProjectileBuilder {
     VectorY(value) {
         this.vectorY = value;
         return this;
-    }
-    build() {
-        return new Projectile(this.id, this.centerPoint, this.angle, this.size, this.vectorX, this.vectorY);
     }
 }
