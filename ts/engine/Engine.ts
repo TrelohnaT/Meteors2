@@ -1,10 +1,8 @@
 import Canvas from "../engine/Canvas.js";
 import EntityBuilder from "../entity/EntityBuilder.js";
 import IEntity from "../entity/IEntity.js";
-import Meteor from "../entity/meteor/Meteor.js";
-import MeteorBuilder from "../entity/meteor/MeteorBuilder.js";
+import Player from "../entity/player/Player.js";
 import Projectile from "../entity/projectile/Projectile.js";
-import ProjectileBuilder from "../entity/projectile/ProjectileBuilder.js";
 import BasicPoint from "../geometry/point/BasicPoint.js";
 
 
@@ -19,9 +17,6 @@ export class Engine {
 
     setUp(): void {
 
-        let canvas = document.getElementById("canvas") as HTMLCanvasElement;
-
-
         // this.entityMap.set(
         //     "test",
         //     new Meteor(new EntityBuilder("test", new BasicPoint("center", 100, 100)).build())
@@ -32,13 +27,30 @@ export class Engine {
             "projectileTest",
             new Projectile(
                 new EntityBuilder("testProjectile", new BasicPoint("projectileCenter", 10, 200))
-                .OffsetAngle(45)
+                .OffsetAngle(-45)
                 .ChunkAngle(180)
-                .VectorX(1)
+                .VectorX(-1)
                 .VectorY(1)
                 .build()
             )
         )
+
+        this.entityMap.set(
+            "player",
+            new Player(
+                new EntityBuilder(
+                    "player", new BasicPoint(
+                        "playerCenter",
+                         this.canvas.getWidth()/2,
+                         this.canvas.getHeight()/2
+                    ))
+                    .OffsetAngle(18)
+                    .Size(20)
+                    .ChunkAngle(72)
+                    .build()
+            )
+        )
+
 
         /*
         this.entityMap.set(
@@ -60,7 +72,7 @@ export class Engine {
 
         // loop for update
         for (let [id, entity] of this.entityMap) {
-            entity.update();
+            entity.update(this.canvas.getWidth(), this.canvas.getHeight());
             this.canvas.drawEntity(entity);
 
         }

@@ -5,6 +5,12 @@ export default class Canvas {
         this.canvas.width = window.innerWidth - 50;
         this.canvas.height = window.innerHeight - 20;
     }
+    getWidth() {
+        return this.canvas.width;
+    }
+    getHeight() {
+        return this.canvas.height;
+    }
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }

@@ -8,7 +8,7 @@ export default interface IEntity{
     getCenterPoint(): IPoint;
 
     setUp():void;
-    update():void;
+    update(maxX:number, maxY:number):void;
     moveMe():void;
 
     

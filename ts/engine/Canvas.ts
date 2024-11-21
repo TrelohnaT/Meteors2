@@ -1,21 +1,28 @@
 import IEntity from "../entity/IEntity.js";
 import IPoint from "../geometry/point/IPoint.js";
 
-export default class Canvas{
-    
+export default class Canvas {
+
     private canvas: HTMLCanvasElement;
-    private ctx :CanvasRenderingContext2D;
-    
+    private ctx: CanvasRenderingContext2D;
+
     constructor() {
         this.canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
         this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
         this.canvas.width = window.innerWidth - 50;
         this.canvas.height = window.innerHeight - 20;
-        
+
     }
 
+    getWidth(): number {
+        return this.canvas.width;
+    }
 
-    clear():void {
+    getHeight(): number {
+        return this.canvas.height;
+    }
+
+    clear(): void {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -23,7 +30,7 @@ export default class Canvas{
 
         this.drawPoint(entity.getCenterPoint());
 
-        for(const [id, point] of entity.getPointMap()) {
+        for (const [id, point] of entity.getPointMap()) {
             this.drawPoint(point);
         }
     }
@@ -37,5 +44,5 @@ export default class Canvas{
         this.ctx.strokeStyle = point.getColor();
         this.ctx.stroke();
     }
-    
+
 }

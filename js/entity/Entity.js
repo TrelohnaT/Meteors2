@@ -1,8 +1,6 @@
 import Calculations from "../engine/Calculations.js";
 export default class Entity {
     constructor(id, centerPoint, size, offsetAngle, maxAngle, chunkAngle, pointMap, rotationDirection, baseRotation, isSymetric, moveMe, moveSpeed, vectorX, vectorY) {
-        //private vectorX: number;
-        //private vectorY: number;
         this.pointsToCenterDistance = new Array();
         this.id = id;
         this.centerPoint = centerPoint;
@@ -17,14 +15,18 @@ export default class Entity {
         this.shouldMove = moveMe;
         this.moveSpeed = moveSpeed;
         //ToDo vector needs to propagate to all points in entity, not just center point.
-        this.centerPoint.setVector(vectorX, vectorY);
-        //this.vectorX = vectorX;
-        //this.vectorY = vectorY;
+        //this.centerPoint.setVector(vectorX, vectorY);
+        this.vectorX = vectorX;
+        this.vectorY = vectorY;
         this.setUp();
     }
     setUp() {
         console.log("setUp");
         this.pointMap.clear();
+        this.centerPoint.setVector(this.vectorX, this.vectorY);
+        if (this.chunkAngle == 0) {
+            return;
+        }
         // formula to draw cyrcular shapes
         for (let j = 1; (this.chunkAngle * j) <= this.maxAngle; j++) {
             // this is not the best place for this, change it later
@@ -49,14 +51,17 @@ export default class Entity {
             const point = Calculations.pointB_angleB_lengthC(pointId, this.centerPoint, ((this.offsetAngle + this.baseRotation) + (this.chunkAngle * j)) * this.rotationDirection, distanceToCenter);
             this.pointMap.set(pointId, point);
         }
+        for (const [id, point] of this.pointMap) {
+            point.setVector(this.vectorX, this.vectorY);
+        }
     }
-    update() {
+    update(maxX, maxY) {
         console.log("projectile update");
-        this.centerPoint.setFutureX();
-        this.centerPoint.setFutureY();
+        this.centerPoint.setFutureX(maxX);
+        this.centerPoint.setFutureY(maxY);
         for (let [id, point] of this.pointMap) {
-            point.setFutureX();
-            point.setFutureY();
+            point.setFutureX(maxX);
+            point.setFutureY(maxY);
         }
     }
     moveMe() {

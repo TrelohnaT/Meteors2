@@ -19,8 +19,8 @@ export default class Entity implements IEntity {
     private shouldMove: boolean;
     private moveSpeed: number;
 
-    //private vectorX: number;
-    //private vectorY: number;
+    private vectorX: number;
+    private vectorY: number;
 
     private pointsToCenterDistance: number[] = new Array();
 
@@ -57,11 +57,11 @@ export default class Entity implements IEntity {
         this.moveSpeed = moveSpeed;
 
         //ToDo vector needs to propagate to all points in entity, not just center point.
-        this.centerPoint.setVector(vectorX, vectorY);
+        //this.centerPoint.setVector(vectorX, vectorY);
 
 
-        //this.vectorX = vectorX;
-        //this.vectorY = vectorY;
+        this.vectorX = vectorX;
+        this.vectorY = vectorY;
 
 
 
@@ -72,6 +72,12 @@ export default class Entity implements IEntity {
     setUp(): void {
         console.log("setUp");
         this.pointMap.clear();
+
+        this.centerPoint.setVector(this.vectorX, this.vectorY);
+        if(this.chunkAngle == 0) {
+            return;
+        }
+
         // formula to draw cyrcular shapes
         for (let j = 1; (this.chunkAngle * j) <= this.maxAngle; j++) {
 
@@ -101,15 +107,20 @@ export default class Entity implements IEntity {
             this.pointMap.set(pointId, point);
         }
 
+        for (const [id, point] of this.pointMap) {
+            point.setVector(this.vectorX, this.vectorY);
+        }
+
     }
 
-    update(): void {
+    update(maxX: number, maxY: number): void {
+
         console.log("projectile update");
-        this.centerPoint.setFutureX();
-        this.centerPoint.setFutureY();
+        this.centerPoint.setFutureX(maxX);
+        this.centerPoint.setFutureY(maxY);
         for (let [id, point] of this.pointMap) {
-            point.setFutureX();
-            point.setFutureY();
+            point.setFutureX(maxX);
+            point.setFutureY(maxY);
         }
     }
 

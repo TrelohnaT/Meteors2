@@ -18,7 +18,7 @@ export default class Calculations {
         const lengthA = lengthC * Math.cos(angleB * (Math.PI / 180));
         // vypocet delky usecky b
         const lengthB = lengthC * Math.sin(angleB * (Math.PI / 180));
-        const pointA = new BasicPoint(pointAId, pointB.getX() + lengthA, pointB.getY() + lengthB);
+        const pointA = new BasicPoint(pointAId, Math.round(pointB.getX() + lengthA), Math.round(pointB.getY() + lengthB));
         return pointA;
     }
 }

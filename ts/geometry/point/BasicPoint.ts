@@ -30,30 +30,38 @@ export default class BasicPoint implements IPoint {
 
     }
 
-    setFutureX(): void {
+    setFutureX(maxX: number): void {
         if (this.vectorX != 0) {
-            this.futureX = this.x - this.vectorX;
+            this.futureX = this.x + this.vectorX;
+
+            if (this.futureX <= 0 || maxX <= this.futureX) {
+                this.vectorX = this.vectorX * -1;
+            }
+
+            this.futureX = this.x + this.vectorX;
             console.log("setFutureX: " + this.futureX);
         }
     }
-    setFutureY(): void {
+    setFutureY(maxY: number): void {
         if (this.vectorY != 0) {
-            this.futureY = this.y - this.vectorY;
-            console.log("setFutureY: " + this.futureY);
+            this.futureY = this.y + this.vectorY;
+
+            if (this.futureY <= 0 || maxY <= this.futureY) {
+                this.vectorY = this.vectorY * -1;
+            }
+            this.futureY = this.y + this.vectorY;
+            console.log(this.id + " vectorY: " + this.vectorY);
         }
     }
 
     moveMeX(): void {
-
         if (this.futureX != 0) {
             this.x = this.futureX;
-            console.log("moveMeX: " + this.x);
         }
     }
     moveMeY(): void {
         if (this.futureY != 0) {
             this.y = this.futureY;
-            console.log("moveMeY: " + this.y);
         }
     }
 

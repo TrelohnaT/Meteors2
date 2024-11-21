@@ -33,10 +33,10 @@ export default class Projectile implements IEntity {
         // }
     }
 
-    update(): void {
+    update(maxX:number, maxY:number): void {
 
 
-        this.entity.update();
+        this.entity.update(maxX, maxY);
 
         // console.log("projectile update");
         // this.centerPoint.setFutureX();

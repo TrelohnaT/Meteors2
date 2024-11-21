@@ -21,8 +21,8 @@ export default class Projectile {
         //     this.pointMap.set(pointId, point);
         // }
     }
-    update() {
-        this.entity.update();
+    update(maxX, maxY) {
+        this.entity.update(maxX, maxY);
         // console.log("projectile update");
         // this.centerPoint.setFutureX();
         // this.centerPoint.setFutureY();

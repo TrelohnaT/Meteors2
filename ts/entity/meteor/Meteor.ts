@@ -16,8 +16,8 @@ export default class Meteor implements IEntity {
 
     }
 
-    update(): void {
-
+    update(maxX:number, maxY:number): void {
+        this.entity.update(maxX, maxY);
     }
 
 

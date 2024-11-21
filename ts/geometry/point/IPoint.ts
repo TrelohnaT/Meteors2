@@ -8,8 +8,8 @@ export default interface IPoint {
     getColor(): string;
     getRadius(): number;
     setVector(vectorX: number, vectorY: number): void;
-    setFutureX(): void;
-    setFutureY(): void;
+    setFutureX(maxX:number): void;
+    setFutureY(maxY:number): void;
     moveMeX(): void;
     moveMeY(): void;
     handleOutOfBorder(maxX:number, maxY:number):void;

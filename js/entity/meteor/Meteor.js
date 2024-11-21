@@ -5,7 +5,8 @@ export default class Meteor {
     setUp() {
         this.entity.setUp();
     }
-    update() {
+    update(maxX, maxY) {
+        this.entity.update(maxX, maxY);
     }
     moveMe() {
         this.entity.moveMe();

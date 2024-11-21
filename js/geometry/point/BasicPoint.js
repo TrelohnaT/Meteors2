@@ -11,28 +11,34 @@ export default class BasicPoint {
         this.y = y;
         this.color = color;
     }
-    setFutureX() {
+    setFutureX(maxX) {
         if (this.vectorX != 0) {
-            this.futureX = this.x - this.vectorX;
+            this.futureX = this.x + this.vectorX;
+            if (this.futureX <= 0 || maxX <= this.futureX) {
+                this.vectorX = this.vectorX * -1;
+            }
+            this.futureX = this.x + this.vectorX;
             console.log("setFutureX: " + this.futureX);
         }
     }
-    setFutureY() {
+    setFutureY(maxY) {
         if (this.vectorY != 0) {
-            this.futureY = this.y - this.vectorY;
-            console.log("setFutureY: " + this.futureY);
+            this.futureY = this.y + this.vectorY;
+            if (this.futureY <= 0 || maxY <= this.futureY) {
+                this.vectorY = this.vectorY * -1;
+            }
+            this.futureY = this.y + this.vectorY;
+            console.log(this.id + " vectorY: " + this.vectorY);
         }
     }
     moveMeX() {
         if (this.futureX != 0) {
             this.x = this.futureX;
-            console.log("moveMeX: " + this.x);
         }
     }
     moveMeY() {
         if (this.futureY != 0) {
             this.y = this.futureY;
-            console.log("moveMeY: " + this.y);
         }
     }
     setVector(vectorX, vectorY) {
