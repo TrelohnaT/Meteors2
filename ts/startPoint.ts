@@ -1,5 +1,5 @@
 import { Engine } from "./engine/Engine.js";
-import MouseHandler from "./engine/MouseHandler.js";
+import MouseHandler from "./engine/mouse/MouseHandler.js";
 
 
 let stillRun: boolean = true;
@@ -31,7 +31,7 @@ function mainLoop(): void {
 
     //events = getEmptyEvents();
 
-    engine.update();
+    engine.update(mouseHandler.getData());
 
     if (stillRun) {
         if (frames % 1 == 0) {
@@ -51,12 +51,14 @@ canvas.onmousemove = function (evt: MouseEvent) {
     let scaleY = canvas.height / rect.height;
     mouseHandler.setX((evt.clientX - rect.left) * scaleX);
     mouseHandler.setY((evt.clientY - rect.top) * scaleY);
-
 }
 
 canvas.onmousedown = function (evt: MouseEvent) {
-    console.log("clcik doune");
-    mouseHandler.handleEvent(evt.button, "onmousedown");
+    mouseHandler.handleEvent(evt.button, MouseHandler.down);
+}
+
+canvas.onmouseup = function(evt: MouseEvent) {
+    mouseHandler.handleEvent(evt.button, MouseHandler.up);
 }
 
 

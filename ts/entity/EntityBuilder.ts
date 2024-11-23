@@ -22,12 +22,16 @@ export default class EntityBuilder {
 
     private baseRotation: number = 180;
     private moveMe: boolean = false;
+    private drawLines: boolean = false;
     private isSymetric: boolean = true;
     private moveSpeed: number = 1;
 
 
     private vectorX: number = 0;
     private vectorY: number = 0;
+
+
+    private pointsToCenterDistance: number[] = new Array();
 
     constructor(id: string, centerPoint: IPoint) {
         this.id = id;
@@ -68,8 +72,13 @@ export default class EntityBuilder {
     IsSymetric(value: boolean): EntityBuilder {
         this.isSymetric = value;
         return this;
-
     }
+
+    DrawLines(value: boolean): EntityBuilder {
+        this.drawLines = value;
+        return this;
+    }
+
     PointMap(value: Map<string, IPoint>): EntityBuilder {
         this.pointMap = value;
         return this;
@@ -94,6 +103,11 @@ export default class EntityBuilder {
         this.vectorY = value;
         return this;
     }
+    
+    PointsToCenterDistance(value: number[]): EntityBuilder {
+        this.pointsToCenterDistance = value;
+        return this;
+    } 
 
     build(): Entity {
         return new Entity(
@@ -107,10 +121,12 @@ export default class EntityBuilder {
             this.rotationDirection,
             this.baseRotation,
             this.isSymetric,
+            this.drawLines,
             this.moveMe,
             this.moveSpeed,
             this.vectorX,
-            this.vectorY
+            this.vectorY,
+            this.pointsToCenterDistance
         );
     }
 

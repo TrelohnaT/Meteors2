@@ -1,5 +1,5 @@
 import { Engine } from "./engine/Engine.js";
-import MouseHandler from "./engine/MouseHandler.js";
+import MouseHandler from "./engine/mouse/MouseHandler.js";
 let stillRun = true;
 let frames = 0;
 let engine = new Engine();
@@ -16,7 +16,7 @@ window.onload = (e) => {
 function mainLoop() {
     //stillRun = engine.update(ctx, canvas.width, canvas.height, mousePoint, events);
     //events = getEmptyEvents();
-    engine.update();
+    engine.update(mouseHandler.getData());
     if (stillRun) {
         if (frames % 1 == 0) {
             requestAnimationFrame(mainLoop);
@@ -36,8 +36,10 @@ canvas.onmousemove = function (evt) {
     mouseHandler.setY((evt.clientY - rect.top) * scaleY);
 };
 canvas.onmousedown = function (evt) {
-    console.log("clcik doune");
-    mouseHandler.handleEvent(evt.button, "onmousedown");
+    mouseHandler.handleEvent(evt.button, MouseHandler.down);
+};
+canvas.onmouseup = function (evt) {
+    mouseHandler.handleEvent(evt.button, MouseHandler.up);
 };
 // we want to see FPS
 setInterval(() => {

@@ -14,15 +14,17 @@ export default class Entity implements IEntity {
     private pointMap: Map<string, IPoint>;
     private rotationDirection: number;
     private baseRotation: number;
-    private isSymetric: boolean;
 
+    private isSymetric: boolean;
+    private drawLines: boolean;
     private shouldMove: boolean;
+
     private moveSpeed: number;
 
     private vectorX: number;
     private vectorY: number;
 
-    private pointsToCenterDistance: number[] = new Array();
+    private pointsToCenterDistance: number[];
 
     constructor(
         id: string,
@@ -34,13 +36,17 @@ export default class Entity implements IEntity {
         pointMap: Map<string, IPoint>,
         rotationDirection: number,
         baseRotation: number,
-        isSymetric: boolean,
 
+        isSymetric: boolean,
+        drawLines: boolean,
         moveMe: boolean,
+
         moveSpeed: number,
 
         vectorX: number,
-        vectorY: number
+        vectorY: number,
+
+        pointsToCenterDistance: number[]
     ) {
         this.id = id;
         this.centerPoint = centerPoint;
@@ -51,9 +57,11 @@ export default class Entity implements IEntity {
         this.pointMap = pointMap;
         this.rotationDirection = rotationDirection;
         this.baseRotation = baseRotation;
-        this.isSymetric = isSymetric;
 
+        this.isSymetric = isSymetric;
+        this.drawLines = drawLines;
         this.shouldMove = moveMe;
+
         this.moveSpeed = moveSpeed;
 
         //ToDo vector needs to propagate to all points in entity, not just center point.
@@ -63,6 +71,8 @@ export default class Entity implements IEntity {
         this.vectorX = vectorX;
         this.vectorY = vectorY;
 
+        this.pointsToCenterDistance = pointsToCenterDistance;
+
 
 
         this.setUp();
@@ -71,41 +81,13 @@ export default class Entity implements IEntity {
 
     setUp(): void {
         console.log("setUp");
-        this.pointMap.clear();
 
         this.centerPoint.setVector(this.vectorX, this.vectorY);
-        if(this.chunkAngle == 0) {
+        if (this.chunkAngle == 0) {
             return;
         }
 
-        // formula to draw cyrcular shapes
-        for (let j = 1; (this.chunkAngle * j) <= this.maxAngle; j++) {
-
-            // this is not the best place for this, change it later
-            if (this.pointsToCenterDistance.length <= this.maxAngle / this.chunkAngle) {
-                const change = Math.floor(Math.random() * 10);
-                // increment or decrement by chance
-                if (Math.floor(Math.random() * 2) == 1) {
-                    this.pointsToCenterDistance.push(this.size / 2 - change);
-                } else {
-                    this.pointsToCenterDistance.push(this.size / 2 + change);
-                }
-            }
-            const pointId = "point_" + j;
-            let distanceToCenter: number = 0;
-            if (this.isSymetric) {
-                distanceToCenter = this.size;
-            } else {
-                distanceToCenter = this.pointsToCenterDistance[j - 1];
-            }
-            const point = Calculations.pointB_angleB_lengthC(
-                pointId,
-                this.centerPoint,
-                ((this.offsetAngle + this.baseRotation) + (this.chunkAngle * j)) * this.rotationDirection,
-                distanceToCenter
-            );
-            this.pointMap.set(pointId, point);
-        }
+        this.updatePointMap();
 
         for (const [id, point] of this.pointMap) {
             point.setVector(this.vectorX, this.vectorY);
@@ -115,7 +97,6 @@ export default class Entity implements IEntity {
 
     update(maxX: number, maxY: number): void {
 
-        console.log("projectile update");
         this.centerPoint.setFutureX(maxX);
         this.centerPoint.setFutureY(maxY);
         for (let [id, point] of this.pointMap) {
@@ -134,6 +115,19 @@ export default class Entity implements IEntity {
         }
     }
 
+    updateOffsetAngle(offsetAngle: number): void {
+        this.offsetAngle = offsetAngle;
+        this.updatePointMap();
+    }
+
+    getOffsetAngle(): number {
+        return this.offsetAngle;
+    }
+
+    getDrawLines(): boolean {
+        return this.drawLines;
+    }
+
     getId(): string {
         return this.id;
     }
@@ -144,6 +138,32 @@ export default class Entity implements IEntity {
 
     getCenterPoint(): IPoint {
         return this.centerPoint;
+    }
+
+
+    private updatePointMap() {
+
+
+        this.pointMap.clear();
+
+        // formula to draw cyrcular shapes
+        for (let j = 1; (this.chunkAngle * j) <= this.maxAngle; j++) {            
+            const pointId = "point_" + j;
+            let distanceToCenter: number = 0;
+            if (this.pointsToCenterDistance.length != (this.maxAngle / this.chunkAngle)) {
+                distanceToCenter = this.size;
+            } else {
+                distanceToCenter = this.size * this.pointsToCenterDistance[j - 1];
+            }
+            const point = Calculations.pointB_angleB_lengthC(
+                pointId,
+                this.centerPoint,
+                ((this.offsetAngle + this.baseRotation) + (this.chunkAngle * j)) * this.rotationDirection,
+                distanceToCenter,
+                false
+            );
+            this.pointMap.set(pointId, point);
+        }
     }
 
 }

@@ -1,8 +1,8 @@
 export default class BasicPoint {
-    constructor(id, x, y, color = "#ff0000") {
+    constructor(id, x, y, color = "#000000") {
         this.futureX = 0;
         this.futureY = 0;
-        this.radius = 5;
+        this.radius = 2;
         this.vectorX = 0;
         this.vectorY = 0;
         this.hitBorder = false;
@@ -18,7 +18,6 @@ export default class BasicPoint {
                 this.vectorX = this.vectorX * -1;
             }
             this.futureX = this.x + this.vectorX;
-            console.log("setFutureX: " + this.futureX);
         }
     }
     setFutureY(maxY) {
@@ -28,7 +27,6 @@ export default class BasicPoint {
                 this.vectorY = this.vectorY * -1;
             }
             this.futureY = this.y + this.vectorY;
-            console.log(this.id + " vectorY: " + this.vectorY);
         }
     }
     moveMeX() {

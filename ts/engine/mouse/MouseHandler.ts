@@ -1,3 +1,4 @@
+import MouseData from "./MouseData.js";
 
 
 export default class MouseHandler {
@@ -10,63 +11,73 @@ export default class MouseHandler {
     private middleBtn: boolean = false;
     private rightBtn: boolean = false;
 
-    private down: string = "onmousedown";
-    private up: string = "onmouseup";
+    static down: string = "onmousedown";
+    static up: string = "onmouseup";
 
     constructor(id: string) {
         this.id = id;
 
     }
 
-    handleEvent(buttonNumber: number, type: string):void {
+    handleEvent(buttonNumber: number, type: string): void {
         if (buttonNumber == 0) {
-            if (type == this.down) {
+            if (type == MouseHandler.down) {
                 this.leftBtn = true;
-            } else if (type == this.up) {
+            } else if (type == MouseHandler.up) {
                 this.leftBtn = false;
             }
         } else if (buttonNumber == 1) {
-            if (type == this.down) {
+            if (type == MouseHandler.down) {
                 this.middleBtn = true;
-            } else if (type == this.up) {
+            } else if (type == MouseHandler.up) {
                 this.middleBtn = false;
             }
         } else if (buttonNumber == 2) {
-            if (type == this.down) {
+            if (type == MouseHandler.down) {
                 this.rightBtn = true;
-            } else if (type == this.up) {
+            } else if (type == MouseHandler.up) {
                 this.rightBtn = false;
             }
         }
 
     }
 
-    setX(value:number): void {
+    getData(): MouseData {
+        return new MouseData(
+            this.x,
+            this.y,
+            this.leftBtn,
+            this.middleBtn,
+            this.rightBtn
+        )
+    }
+
+    setX(value: number): void {
         this.x = value;
     }
-    getX():number {
+    getX(): number {
         return this.x;
     }
 
-    setY(value:number) :void{
+    setY(value: number): void {
         this.y = value;
     }
-    getY():number {
+    getY(): number {
         return this.y;
     }
 
-    right():boolean{
+    right(): boolean {
         return this.rightBtn;
     }
 
-    middle():boolean {
+    middle(): boolean {
         return this.middleBtn;
     }
-    left():boolean {
+    left(): boolean {
         return this.leftBtn;
     }
 
-    clear():void {
+    clear(): void {
         this.leftBtn = false;
         this.middleBtn = false;
         this.rightBtn = false;

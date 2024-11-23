@@ -5,11 +5,14 @@ export default class Meteor {
     setUp() {
         this.entity.setUp();
     }
-    update(maxX, maxY) {
-        this.entity.update(maxX, maxY);
+    update(updateContainer) {
+        this.entity.update(updateContainer.maxX, updateContainer.maxY);
     }
     moveMe() {
         this.entity.moveMe();
+    }
+    getEntity() {
+        return this.entity;
     }
     getId() {
         return this.entity.getId();

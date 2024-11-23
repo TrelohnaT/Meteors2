@@ -9,10 +9,12 @@ export default class EntityBuilder {
         this.rotationDirection = 1;
         this.baseRotation = 180;
         this.moveMe = false;
+        this.drawLines = false;
         this.isSymetric = true;
         this.moveSpeed = 1;
         this.vectorX = 0;
         this.vectorY = 0;
+        this.pointsToCenterDistance = new Array();
         this.id = id;
         this.centerPoint = centerPoint;
     }
@@ -44,6 +46,10 @@ export default class EntityBuilder {
         this.isSymetric = value;
         return this;
     }
+    DrawLines(value) {
+        this.drawLines = value;
+        return this;
+    }
     PointMap(value) {
         this.pointMap = value;
         return this;
@@ -64,7 +70,11 @@ export default class EntityBuilder {
         this.vectorY = value;
         return this;
     }
+    PointsToCenterDistance(value) {
+        this.pointsToCenterDistance = value;
+        return this;
+    }
     build() {
-        return new Entity(this.id, this.centerPoint, this.size, this.offsetAngle, this.maxAngle, this.chunkAngle, this.pointMap, this.rotationDirection, this.baseRotation, this.isSymetric, this.moveMe, this.moveSpeed, this.vectorX, this.vectorY);
+        return new Entity(this.id, this.centerPoint, this.size, this.offsetAngle, this.maxAngle, this.chunkAngle, this.pointMap, this.rotationDirection, this.baseRotation, this.isSymetric, this.drawLines, this.moveMe, this.moveSpeed, this.vectorX, this.vectorY, this.pointsToCenterDistance);
     }
 }
