@@ -76,9 +76,15 @@ export class Engine {
         }
     }
     logToDom() {
-        const projectileCount = document.getElementById("projectilesCount");
-        if (projectileCount != null) {
-            projectileCount.innerHTML = String(this.porjectileCounter);
+        let projectileCount = 0;
+        for (const [id, customObject] of this.entityMap) {
+            if (customObject instanceof Projectile) {
+                projectileCount++;
+            }
+        }
+        const projectileCountEl = document.getElementById("projectilesCount");
+        if (projectileCountEl != null) {
+            projectileCountEl.innerHTML = String(projectileCount);
         }
     }
 }
