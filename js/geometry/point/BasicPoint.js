@@ -5,29 +5,42 @@ export default class BasicPoint {
         this.radius = 2;
         this.vectorX = 0;
         this.vectorY = 0;
-        this.hitBorder = false;
         this.id = id;
         this.x = x;
         this.y = y;
         this.color = color;
     }
+    /**
+     * also checks if point in out of viewport on X
+     * @param maxX
+     */
     setFutureX(maxX) {
+        let hitBorderX = false;
         if (this.vectorX != 0) {
             this.futureX = this.x + this.vectorX;
-            if (this.futureX <= 0 || maxX <= this.futureX) {
+            hitBorderX = (this.futureX <= 0 || maxX <= this.futureX);
+            if (hitBorderX) {
                 this.vectorX = this.vectorX * -1;
             }
             this.futureX = this.x + this.vectorX;
         }
+        return hitBorderX;
     }
+    /**
+     * also checks if point in out of viewport on Y
+     * @param maxY
+     */
     setFutureY(maxY) {
+        let hitBorderY = false;
         if (this.vectorY != 0) {
             this.futureY = this.y + this.vectorY;
-            if (this.futureY <= 0 || maxY <= this.futureY) {
+            hitBorderY = (this.futureY <= 0 || maxY <= this.futureY);
+            if (hitBorderY) {
                 this.vectorY = this.vectorY * -1;
             }
             this.futureY = this.y + this.vectorY;
         }
+        return hitBorderY;
     }
     moveMeX() {
         if (this.futureX != 0) {
@@ -46,20 +59,6 @@ export default class BasicPoint {
     set_x_and_y(x, y) {
         this.x = x;
         this.y = y;
-    }
-    handleOutOfBorder(maxX, maxY) {
-        if (this.x < 0) {
-            this.futureX = maxX;
-        }
-        else if (maxX < this.x) {
-            this.futureX = 0;
-        }
-        if (this.y < 0) {
-            this.futureY = maxY;
-        }
-        else if (maxY < this.y) {
-            this.futureY = 0;
-        }
     }
     getId() {
         return this.id;

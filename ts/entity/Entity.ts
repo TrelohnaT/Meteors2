@@ -26,6 +26,10 @@ export default class Entity implements IEntity {
 
     private pointsToCenterDistance: number[];
 
+
+    private hitBorderX: boolean = false;
+    private hitBorderY: boolean = false;
+
     constructor(
         id: string,
         centerPoint: IPoint,
@@ -96,12 +100,20 @@ export default class Entity implements IEntity {
     }
 
     update(maxX: number, maxY: number): void {
-
         this.centerPoint.setFutureX(maxX);
         this.centerPoint.setFutureY(maxY);
         for (let [id, point] of this.pointMap) {
-            point.setFutureX(maxX);
-            point.setFutureY(maxY);
+            const hitBorderX = point.setFutureX(maxX);
+            const hitBorderY = point.setFutureY(maxY);
+
+            // if hitBorder is false, it can be overwriten, if true it cannot be
+            if (!this.hitBorderX) {
+                this.hitBorderX = hitBorderX;
+            }
+            if (!this.hitBorderY) {
+                this.hitBorderY = hitBorderY;
+            }
+
         }
     }
 
@@ -122,6 +134,13 @@ export default class Entity implements IEntity {
 
     getOffsetAngle(): number {
         return this.offsetAngle;
+    }
+
+    getHitBorderX(): boolean {
+        return this.hitBorderX;
+    }
+    getHitBorderY(): boolean {
+        return this.hitBorderY;
     }
 
     getDrawLines(): boolean {
@@ -147,7 +166,7 @@ export default class Entity implements IEntity {
         this.pointMap.clear();
 
         // formula to draw cyrcular shapes
-        for (let j = 1; (this.chunkAngle * j) <= this.maxAngle; j++) {            
+        for (let j = 1; (this.chunkAngle * j) <= this.maxAngle; j++) {
             const pointId = "point_" + j;
             let distanceToCenter: number = 0;
             if (this.pointsToCenterDistance.length != (this.maxAngle / this.chunkAngle)) {

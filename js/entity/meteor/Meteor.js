@@ -1,5 +1,7 @@
+import UpdateOutputContainer from '../../engine/update/UpdateOutputContainer';
 export default class Meteor {
     constructor(entity) {
+        this.doomed = false;
         this.entity = entity;
     }
     setUp() {
@@ -7,6 +9,7 @@ export default class Meteor {
     }
     update(updateContainer) {
         this.entity.update(updateContainer.maxX, updateContainer.maxY);
+        return new UpdateOutputContainer(false);
     }
     moveMe() {
         this.entity.moveMe();
@@ -22,5 +25,8 @@ export default class Meteor {
     }
     getCenterPoint() {
         return this.entity.getCenterPoint();
+    }
+    getDoomed() {
+        return this.doomed;
     }
 }

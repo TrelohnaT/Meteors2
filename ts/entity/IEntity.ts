@@ -14,6 +14,8 @@ export default interface IEntity{
     update(maxX:number, maxY:number):void;
     moveMe():void;
 
+    getHitBorderX():boolean;
+    getHitBorderY():boolean;
     
 
 

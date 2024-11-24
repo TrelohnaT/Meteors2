@@ -1,6 +1,8 @@
 import Calculations from "../engine/Calculations.js";
 export default class Entity {
     constructor(id, centerPoint, size, offsetAngle, maxAngle, chunkAngle, pointMap, rotationDirection, baseRotation, isSymetric, drawLines, moveMe, moveSpeed, vectorX, vectorY, pointsToCenterDistance) {
+        this.hitBorderX = false;
+        this.hitBorderY = false;
         this.id = id;
         this.centerPoint = centerPoint;
         this.size = size;
@@ -36,8 +38,15 @@ export default class Entity {
         this.centerPoint.setFutureX(maxX);
         this.centerPoint.setFutureY(maxY);
         for (let [id, point] of this.pointMap) {
-            point.setFutureX(maxX);
-            point.setFutureY(maxY);
+            const hitBorderX = point.setFutureX(maxX);
+            const hitBorderY = point.setFutureY(maxY);
+            // if hitBorder is false, it can be overwriten, if true it cannot be
+            if (!this.hitBorderX) {
+                this.hitBorderX = hitBorderX;
+            }
+            if (!this.hitBorderY) {
+                this.hitBorderY = hitBorderY;
+            }
         }
     }
     moveMe() {
@@ -55,6 +64,12 @@ export default class Entity {
     }
     getOffsetAngle() {
         return this.offsetAngle;
+    }
+    getHitBorderX() {
+        return this.hitBorderX;
+    }
+    getHitBorderY() {
+        return this.hitBorderY;
     }
     getDrawLines() {
         return this.drawLines;

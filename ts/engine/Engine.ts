@@ -7,7 +7,7 @@ import Projectile from "../entity/projectile/Projectile.js";
 import BasicPoint from "../geometry/point/BasicPoint.js";
 import Calculations from "./Calculations.js";
 import MouseData from "./mouse/MouseData.js";
-import UpdateContainer from "./update/UpdateContainer.js";
+import UpdateInputContainer from "./update/UpdateInputContainer.js";
 
 
 export class Engine {
@@ -26,7 +26,6 @@ export class Engine {
     }
 
     setUp(): void {
-
         this.entityMap.set(
             this.playerId,
             new Player(
@@ -41,7 +40,7 @@ export class Engine {
                     .Size(20)
                     .ChunkAngle(72)
                     .DrawLines(true)
-                    .PointsToCenterDistance([1,2,2,1,2])
+                    .PointsToCenterDistance([1, 2, 2, 1, 2])
                     .build()
             )
         )
@@ -51,7 +50,7 @@ export class Engine {
     update(mouseData: MouseData): void {
         this.canvas.clear();
 
-        const updateContainer = new UpdateContainer(
+        const updateContainer = new UpdateInputContainer(
             this.canvas.getWidth(),
             this.canvas.getHeight(),
             mouseData);
@@ -64,51 +63,7 @@ export class Engine {
 
             if (this.ableToShoot) {
                 this.ableToShoot = false;
-
-                const player = this.entityMap.get(this.playerId) as IPlayer;
-
-                if (player != null) {
-                    this.porjectileCounter++;
-                    const projectileData = player.getProjectileData();
-
-                    // projectile center point
-                    const projectileCenterPoint = new BasicPoint(
-                        "projectile" + this.porjectileCounter + "Center",
-                        projectileData.x,
-                        projectileData.y,
-                        "#ff0000"
-                    );
-
-                    // calculation of point to get the vector for projectile
-                    const tmp = Calculations.pointB_angleB_lengthC("tmp",
-                        projectileCenterPoint,
-                        projectileData.angle,
-                        5,
-                        false
-                    );
-
-                    const newProjectile = new Projectile(
-                        new EntityBuilder(
-                            "projectile" + this.porjectileCounter,
-                            projectileCenterPoint
-                        )
-                            .OffsetAngle(projectileData.angle)
-                            .ChunkAngle(180)
-                            .VectorX(projectileData.x - tmp.getX())
-                            .VectorY(projectileData.y - tmp.getY())
-                            .PointsToCenterDistance([2,2])
-                            .DrawLines(true)
-                            .build()
-
-
-                    );
-
-                    this.entityMap.set(
-                        "projectile" + this.porjectileCounter,
-                        newProjectile
-                    );
-
-                }
+                this.playerShooting();
             }
 
         } else {
@@ -118,9 +73,13 @@ export class Engine {
 
 
         // loop for update
-        for (let [id, entity] of this.entityMap) {
-            entity.update(updateContainer);
-            this.canvas.drawEntity(entity);
+        for (let [id, customObject] of this.entityMap) {
+            customObject.update(updateContainer);
+            this.canvas.drawEntity(customObject);
+
+            if (customObject.getDoomed()) {
+                doomedEnityList.push(customObject.getId());
+            }
 
         }
 
@@ -137,6 +96,54 @@ export class Engine {
 
 
         this.logToDom();
+    }
+
+    playerShooting(): void {
+
+        const player = this.entityMap.get(this.playerId) as IPlayer;
+
+        if (player != null) {
+            this.porjectileCounter++;
+            const projectileData = player.getProjectileData();
+
+            // projectile center point
+            const projectileCenterPoint = new BasicPoint(
+                "projectile" + this.porjectileCounter + "Center",
+                projectileData.x,
+                projectileData.y,
+                "#ff0000"
+            );
+
+            // calculation of point to get the vector for projectile
+            const tmp = Calculations.pointB_angleB_lengthC("tmp",
+                projectileCenterPoint,
+                projectileData.angle,
+                5,
+                false
+            );
+
+            const newProjectile = new Projectile(
+                new EntityBuilder(
+                    "projectile" + this.porjectileCounter,
+                    projectileCenterPoint
+                )
+                    .OffsetAngle(projectileData.angle)
+                    .ChunkAngle(180)
+                    .VectorX(projectileData.x - tmp.getX())
+                    .VectorY(projectileData.y - tmp.getY())
+                    .PointsToCenterDistance([0.5, 0.5])
+                    .DrawLines(true)
+                    .build()
+
+
+            );
+
+            this.entityMap.set(
+                "projectile" + this.porjectileCounter,
+                newProjectile
+            );
+
+        }
     }
 
     logToDom() {

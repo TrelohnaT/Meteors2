@@ -1,6 +1,6 @@
 import MouseData from "../mouse/MouseData";
 
-export default class UpdateContainer {
+export default class UpdateInputContainer {
 
     maxX: number;
     maxY: number;

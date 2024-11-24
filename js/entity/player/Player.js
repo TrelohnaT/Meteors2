@@ -1,4 +1,5 @@
 import Calculations from "../../engine/Calculations.js";
+import UpdateOutputContainer from "../../engine/update/UpdateOutputContainer.js";
 import ProjectileData from "./ProjectileData.js";
 export default class Player {
     constructor(entity) {
@@ -12,6 +13,7 @@ export default class Player {
         // rotation of player to be pointing to the target
         const angle = Calculations.angleBetweenTwoPoints(this.entity.getCenterPoint().getX(), this.entity.getCenterPoint().getY(), updateContainer.mouseData.x, updateContainer.mouseData.y);
         this.entity.updateOffsetAngle(angle);
+        return new UpdateOutputContainer(false);
     }
     moveMe() {
     }
@@ -26,6 +28,9 @@ export default class Player {
     }
     getPointMap() {
         return this.entity.getPointMap();
+    }
+    getDoomed() {
+        return false;
     }
     getCenterPoint() {
         return this.entity.getCenterPoint();
