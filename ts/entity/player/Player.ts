@@ -24,8 +24,6 @@ export default class Player implements IPlayer {
     }
 
     update(updateContainer: UpdateInputContainer): UpdateOutputContainer {
-        // the "shimering" is caused by rounding of calculation of points coordinations
-        // rotation of player to be pointing to the target
         const angle = Calculations.angleBetweenTwoPoints(
             this.entity.getCenterPoint().getX(),
             this.entity.getCenterPoint().getY(),
@@ -33,7 +31,7 @@ export default class Player implements IPlayer {
             updateContainer.mouseData.y
         )
         this.entity.updateOffsetAngle(angle);
-        return new UpdateOutputContainer(false);
+        return new UpdateOutputContainer();
     }
 
     moveMe(): void {

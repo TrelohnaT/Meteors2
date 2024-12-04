@@ -1,4 +1,5 @@
 import { Engine } from "./engine/Engine.js";
+import KeyboardHandler from "./engine/keyboard/KeyboardHandler.js";
 import MouseHandler from "./engine/mouse/MouseHandler.js";
 
 
@@ -8,6 +9,7 @@ let frames: number = 0;
 let engine: Engine = new Engine();
 
 let mouseHandler: MouseHandler = new MouseHandler("mouseHandler");
+let keyboardHandler: KeyboardHandler = new KeyboardHandler();
 let canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
 
 function starter(): void {
@@ -30,8 +32,7 @@ function mainLoop(): void {
     //stillRun = engine.update(ctx, canvas.width, canvas.height, mousePoint, events);
 
     //events = getEmptyEvents();
-
-    engine.update(mouseHandler.getData());
+    engine.update(mouseHandler.getData(), keyboardHandler.getData());
 
     if (stillRun) {
         if (frames % 1 == 0) {
@@ -61,7 +62,13 @@ canvas.onmouseup = function(evt: MouseEvent) {
     mouseHandler.handleEvent(evt.button, MouseHandler.up);
 }
 
+document.onkeydown = function(evt: KeyboardEvent) {
+    keyboardHandler.handleEvent(evt.key, KeyboardHandler.down);
+}
 
+document.onkeyup = function(evt: KeyboardEvent) {
+    keyboardHandler.handleEvent(evt.key, KeyboardHandler.up);
+}
 
 // we want to see FPS
 setInterval(() => {

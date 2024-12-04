@@ -22,12 +22,11 @@ export class Engine {
             .PointsToCenterDistance([1, 2, 2, 1, 2])
             .build()));
     }
-    update(mouseData) {
+    update(mouseData, keyboardData) {
         this.canvas.clear();
-        const updateContainer = new UpdateInputContainer(this.canvas.getWidth(), this.canvas.getHeight(), mouseData);
+        const updateContainer = new UpdateInputContainer(this.canvas.getWidth(), this.canvas.getHeight(), mouseData, keyboardData);
         const doomedEnityList = new Array();
         // handling mouse events
-        console.log(mouseData.leftBtn);
         if (mouseData.leftBtn) {
             if (this.ableToShoot) {
                 this.ableToShoot = false;
@@ -36,6 +35,10 @@ export class Engine {
         }
         else {
             this.ableToShoot = true;
+        }
+        // handling keyboard events
+        // force field active
+        if (keyboardData.space) {
         }
         // loop for update
         for (let [id, customObject] of this.entityMap) {
@@ -54,6 +57,9 @@ export class Engine {
             entity.moveMe();
         }
         this.logToDom();
+    }
+    playerForceField() {
+        const player = this.entityMap.get(this.playerId);
     }
     playerShooting() {
         const player = this.entityMap.get(this.playerId);

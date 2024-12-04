@@ -6,6 +6,7 @@ import Player from "../entity/player/Player.js";
 import Projectile from "../entity/projectile/Projectile.js";
 import BasicPoint from "../geometry/point/BasicPoint.js";
 import Calculations from "./Calculations.js";
+import KeyboardData from "./keyboard/KeyboardData.js";
 import MouseData from "./mouse/MouseData.js";
 import UpdateInputContainer from "./update/UpdateInputContainer.js";
 
@@ -47,18 +48,17 @@ export class Engine {
 
     }
 
-    update(mouseData: MouseData): void {
+    update(mouseData: MouseData, keyboardData: KeyboardData): void {
         this.canvas.clear();
-
         const updateContainer = new UpdateInputContainer(
             this.canvas.getWidth(),
             this.canvas.getHeight(),
-            mouseData);
+            mouseData,
+            keyboardData);
         const doomedEnityList: string[] = new Array();
 
         // handling mouse events
 
-        console.log(mouseData.leftBtn);
         if (mouseData.leftBtn) {
 
             if (this.ableToShoot) {
@@ -70,6 +70,14 @@ export class Engine {
             this.ableToShoot = true;
         }
 
+        // handling keyboard events
+
+        // force field active
+        if(keyboardData.space) {
+
+
+
+        }
 
 
         // loop for update
@@ -97,6 +105,12 @@ export class Engine {
 
 
         this.logToDom();
+    }
+
+    playerForceField() :void {
+
+        const player = this.entityMap.get(this.playerId) as IPlayer;
+
     }
 
     playerShooting(): void {
